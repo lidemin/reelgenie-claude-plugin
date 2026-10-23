@@ -1,0 +1,20 @@
+{
+  "name": "reelgenie",
+  "version": "1.0.0",
+  "description": "Review, schedule and publish the social posts Claude makes to your TikTok, Instagram and YouTube accounts, after your approval.",
+  "author": {
+    "name": "ReelGenie",
+    "url": "https://reelgenie.app"
+  },
+  "homepage": "https://reelgenie.app/claude",
+  "repository": "https://github.com/lidemin/reelgenie-claude-plugin",
+  "keywords": [
+    "social media",
+    "tiktok",
+    "instagram",
+    "youtube",
+    "publishing",
+    "scheduling"
+  ],
+  "license": "MIT"
+}

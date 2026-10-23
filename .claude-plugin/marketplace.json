@@ -1,0 +1,15 @@
+{
+  "name": "reelgenie",
+  "owner": { "name": "ReelGenie", "url": "https://reelgenie.app" },
+  "metadata": { "description": "ReelGenie plugins for Claude Code" },
+  "plugins": [
+    {
+      "name": "reelgenie",
+      "source": "./plugins/reelgenie",
+      "description": "Review, schedule and publish the social posts Claude makes to your TikTok, Instagram and YouTube accounts, after your approval.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "homepage": "https://reelgenie.app/claude"
+    }
+  ]
+}
