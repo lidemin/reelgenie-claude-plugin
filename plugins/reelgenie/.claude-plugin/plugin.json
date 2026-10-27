@@ -1,6 +1,7 @@
 {
   "name": "reelgenie",
-  "version": "1.0.1",
+  "displayName": "ReelGenie",
+  "version": "1.0.2",
   "description": "Review, schedule and publish the social posts Claude makes to your TikTok, Instagram and YouTube accounts, after your approval.",
   "author": {
     "name": "ReelGenie",
@@ -17,5 +18,8 @@
     "scheduling"
   ],
   "license": "MIT",
-  "privacyPolicyUrl": "https://reelgenie.app/privacy"
+  "privacyPolicyUrl": "https://reelgenie.app/privacy",
+  "documentationUrl": "https://reelgenie.app/claude",
+  "supportUrl": "https://reelgenie.app/support",
+  "termsOfServiceUrl": "https://reelgenie.app/terms"
 }
