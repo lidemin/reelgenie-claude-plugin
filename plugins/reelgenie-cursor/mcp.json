@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "reelgenie": {
+      "url": "https://reelgenie.app/api/mcp/agent"
+    }
+  }
+}

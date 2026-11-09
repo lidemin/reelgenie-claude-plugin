@@ -1,0 +1,22 @@
+{
+  "name": "reelgenie",
+  "displayName": "ReelGenie",
+  "version": "1.0.0",
+  "description": "Review, schedule and publish your agent's posts to TikTok, Instagram and YouTube after you approve.",
+  "author": {
+    "name": "ReelGenie"
+  },
+  "homepage": "https://reelgenie.app",
+  "repository": "https://github.com/lidemin/reelgenie-claude-plugin",
+  "license": "MIT",
+  "keywords": [
+    "social media",
+    "tiktok",
+    "instagram",
+    "youtube",
+    "publishing",
+    "scheduling",
+    "mcp"
+  ],
+  "logo": "assets/logo.png"
+}

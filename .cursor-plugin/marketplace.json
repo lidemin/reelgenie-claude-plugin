@@ -1,0 +1,16 @@
+{
+  "name": "reelgenie",
+  "owner": {
+    "name": "ReelGenie"
+  },
+  "metadata": {
+    "description": "ReelGenie plugins for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "reelgenie",
+      "source": "./plugins/reelgenie-cursor",
+      "description": "Review, schedule and publish your agent's posts to TikTok, Instagram and YouTube after you approve."
+    }
+  ]
+}
