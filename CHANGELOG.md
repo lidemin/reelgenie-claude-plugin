@@ -7,7 +7,7 @@ Versions of the Claude Code plugin in `plugins/reelgenie`.
 Brings the plugin skill up to date with the published ReelGenie skill, revision `2026-11-11.7`.
 
 - Uploads work where `storage.googleapis.com` is blocked: the upload tools also return a `reelgenie_upload_url`. Claude PUTs an image there as one file, and a video in 8 MiB parts with `Content-Range` (a `dd` + `curl` loop), then finalizes as usual.
-- Claude desktop and claude.ai: uploads go from the code sandbox, which blocks `reelgenie.app` until the user adds it under Settings → Capabilities → Code execution and file creation → Additional allowed domains (on Team or Enterprise, an owner does this), then starts a new chat. Adding the connector does not allow that domain.
+- Claude desktop and claude.ai: uploads go from the code sandbox, which blocks `reelgenie.app` until the user adds it in Settings → Capabilities → Create and edit files → Allowed websites → Manage, with Use the internet while making files on (on Team or Enterprise, an owner allows it in Organization settings → Capabilities), then starts a new chat. Adding the connector does not allow that domain.
 - README data handling: uploads can also go through `reelgenie.app/api/upload/...`, not only signed `storage.googleapis.com` URLs.
 - Instagram carousels and slide posts: 1 to 20 images or slides (was 1 to 10).
 - Finished HeyGen, Canva or Higgsfield videos can be saved straight from the tool's download link with `create_finished_video_post`; only `files.heygen.ai`, `export-download.canva.com` and `d8j0ntlcm91z4.cloudfront.net` links are accepted.
