@@ -20,7 +20,7 @@ Then run `/mcp`, choose **reelgenie** and sign in to ReelGenie. The consent scre
 
 The plugin runs no local code, hooks or scripts. It connects Claude to one remote MCP server, `https://reelgenie.app/api/mcp/agent`, operated by ReelGenie. Sign-in uses OAuth through `https://auth.reelgenie.app`; no token is stored in plugin files.
 
-When you ask Claude to save a post, Claude sends the post title, caption and the image or video files you choose to ReelGenie. Files upload directly to ReelGenie's Google Cloud Storage bucket (`storage.googleapis.com`) through short-lived signed URLs that the MCP server issues. ReelGenie sends a post to TikTok, Instagram or YouTube only after you approve that delivery in the conversation. Performance reads return metrics ReelGenie already synced for your own posts.
+When you ask Claude to save a post, Claude sends the post title, caption and the image or video files you choose to ReelGenie. Files upload to ReelGenie's Google Cloud Storage bucket, either directly through short-lived signed `storage.googleapis.com` URLs or, where that host is blocked, through ReelGenie's own upload address (`reelgenie.app/api/upload/...`). The MCP server issues both, and both are short-lived and private to that upload. ReelGenie sends a post to TikTok, Instagram or YouTube only after you approve that delivery in the conversation. Performance reads return metrics ReelGenie already synced for your own posts.
 
 Privacy policy: https://reelgenie.app/privacy
 
