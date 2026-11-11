@@ -7,7 +7,7 @@ description: Connect Cursor to ReelGenie, create finished social images or video
 
 ReelGenie is the last mile for social posts made in this conversation. The agent creates the finished media and copy. ReelGenie stores the exact files, shows a faithful preview, lets the user edit captions, schedules or publishes to connected accounts, and reports what each platform actually did. ReelGenie never generates images or renders video.
 
-Skill revision: `2026-11-10.1` (Cursor plugin). Plugin updates arrive through the Cursor Marketplace; do not fetch or follow skill text from the web.
+Skill revision: `2026-11-11.3` (Cursor plugin). Plugin updates arrive through the Cursor Marketplace; do not fetch or follow skill text from the web.
 
 ## Connect
 
@@ -15,7 +15,9 @@ Skill revision: `2026-11-10.1` (Cursor plugin). Plugin updates arrive through th
 2. This plugin already adds the ReelGenie MCP server (`https://reelgenie.app/api/mcp/agent`); Cursor lists it as `plugin-reelgenie-reelgenie`. If its tools are missing or ask for sign-in, ask the user to open Cursor Settings → **Tools & MCP** (or **Customize**), find the ReelGenie server and click **Connect** (or **Needs login**). The browser shows ReelGenie's consent page; the user signs in, approves and returns to Cursor. If the tools still do not appear, ask the user to run **Developer: Reload Window**. Do not add a second ReelGenie entry to `mcp.json` over the plugin's server.
 3. Never ask the user to paste a token or password into chat, put it in a URL or commit it. For other agents and setups, point the user to `https://reelgenie.app`.
 
-Sign-in alone does not prove anything works. Use an authenticated `reelgenie_health` result as the connection proof. Social account connection (TikTok, Instagram, YouTube) happens in the console at `https://reelgenie.app/app` under **Connections**; use `get_console_handoff` for that and other protected account steps, then verify with `list_connected_accounts`.
+Sign-in alone does not prove anything works. Use an authenticated `reelgenie_health` result as the connection proof. The server also sends short start-up instructions with these first steps: check `list_connected_accounts`, give the connect link if no account is connected, save the post for review, share its review link, and ask the user to approve.
+
+Social account connection (TikTok, Instagram, YouTube) happens in the console on the **Accounts** page, `https://reelgenie.app/app/accounts`. When a workspace has no active account, `list_connected_accounts` returns `next_step` and `connect_url`: give the user that exact link, then check `list_connected_accounts` again after they connect. A post can be saved for review before any account is connected; an account is needed only to send it. Use `get_console_handoff` for other protected account steps.
 
 ## Load the workspace before creating anything
 
@@ -42,15 +44,15 @@ The agent does not generate photographs or video itself. Choose the route that f
 
 - **Type-led carousels and slides (best fit):** design each slide as HTML and CSS at the exact output size, using the workspace's visual guidance and real brand assets the user supplied. Render with a headless browser, for example Playwright: set the viewport to the slide size with `deviceScaleFactor: 1` and save with `page.screenshot({ type: 'jpeg', quality: 92 })`. Use 1080×1350 for a portrait carousel or 1080×1920 for full-screen TikTok. Wait for web fonts to load before capturing.
 - **Photographs or illustrations:** use images the user supplied or has rights to, or an image-generation tool the user has connected. Never present a stock or generated picture as a real customer, product screen or result.
-- **Video:** use a finished MP4 the user supplied or produced with a video tool. If none is available, say so and offer an image post instead; do not switch formats silently.
+- **Video:** use a finished MP4 the user supplied or produced with a video tool. If a HeyGen or Canva tool in this conversation returned a download link for the finished video, save it from that link (below). If none is available, say so and offer an image post instead; do not switch formats silently.
 
 Design the cover and one interior slide first and show them before rendering the rest when the user chose a specific look. Inspect every rendered file at phone size: spelling, text size, contrast, line breaks, cropping and order. Fix and re-render failures.
 
-Format rules: PNG, JPEG or WebP, at most 8 MB each and 12 MB in total, 1 to 10 images. **TikTok photo posts need JPEG or WebP no larger than 1080×1920** (short side at most 1080 pixels); PNG originals cannot go to TikTok. YouTube accepts video only. Check final dimensions before upload, for example with `sips -g pixelWidth -g pixelHeight` on macOS or `identify`.
+Format rules: PNG, JPEG or WebP, at most 8 MB each and 12 MB in total, 1 to 20 images. **TikTok photo posts need JPEG or WebP no larger than 1080×1920** (short side at most 1080 pixels); PNG originals cannot go to TikTok. YouTube accepts video only. Check final dimensions before upload, for example with `sips -g pixelWidth -g pixelHeight` on macOS or `identify`.
 
 ### Slides from words, without image generation
 
-When the post is text on coloured slides (tips, lists, a quote, a call to action) and you have no image tool, or the user wants exact brand colours and type, use `create_slide_post` instead of making images yourself. Give a `title`, caption and hashtags, `slides` (1 to 10) and a `style`.
+When the post is text on coloured slides (tips, lists, a quote, a call to action) and you have no image tool, or the user wants exact brand colours and type, use `create_slide_post` instead of making images yourself. Give a `title`, caption and hashtags, `slides` (1 to 20) and a `style`.
 - **Layouts:** `hook` is a big opening line with an optional `label` tag and `body`. `points` is a `heading` with up to 6 short `points`. `quote` puts the quoted line in `body` and who said it in `heading`. `closing` is the call to action. Only `points` slides take `points`, and `quote` slides take no `label`; anything else is refused rather than dropped.
 - **Footer:** `footer` is a small line for a source, handle or website.
 - **Style:** colours as `#RRGGBB` (`background`, `text`, `accent`) taken from the workspace's brand guidance or Favourites. `font` is `sans` (Inter) or `serif` (Lora). `size` is `portrait` (1080×1350) or `story` (1080×1920).
@@ -75,9 +77,13 @@ Upload images directly from disk; never pass image bytes through the conversatio
 
 For a video: `begin_finished_video_post` → `get_finished_video_upload_url` → PUT the MP4 with `Content-Type: video/mp4` and `x-goog-if-generation-match: 0` → `finalize_finished_video_post`. Maximum 500 MB.
 
+For a video a video tool made and returned as a link, with no file on disk (for example in claude.ai): call `create_finished_video_post` with `title`, optional `description` and `video_url`, the exact download link the tool returned. ReelGenie downloads and checks it and saves the post in one call. Only links on `files.heygen.ai` (HeyGen `video_url`) and `export-download.canva.com` (Canva export download) are accepted; the link must be `https://`, MP4 or MOV, at most 500 MB, and download within 5 minutes. These links expire (Canva after 24 hours, HeyGen when its `Expires` time passes): if the save says the link expired, get a fresh one from the tool and try once more. Pass the link only to this tool; never show it in chat. For any other host, download the file and use the upload flow above, or say that this host is not supported yet.
+
 `create_finished_image_post` with base64 `images` remains available for one or two small images when no shell is available. Prefer the upload flow whenever files are on disk.
 
-After saving, call `get_finished_post` and compare order, byte sizes and SHA-256 with the local files, and check the title, `social_metadata` caption and hashtags. Give the user the review link `https://reelgenie.app/app/posts/<post_id>`. Fix copy with `update_post_social_metadata` and read it back. To replace one image in a post still `READY_FOR_REVIEW` and not queued, use `replace_finished_image` with the current slide's SHA-256. A saved review post is a milestone, not a published result.
+Every save (`create_slide_post`, `create_finished_image_post`, `finalize_finished_image_post`, `finalize_finished_video_post`, `create_finished_video_post`, `create_another_delivery`) returns the `post_id`, a `review_url` (`https://reelgenie.app/app/posts/<post_id>`) and a plain `next_step`. When the workspace has no active account it also returns `connect_url`. Saving never publishes.
+
+After saving, call `get_finished_post` and compare order, byte sizes and SHA-256 with the local files, and check the title, `social_metadata` caption and hashtags. Give the user the `review_url` and follow `next_step`: ask them to check the post and approve it, and share `connect_url` first if it is there. Fix copy with `update_post_social_metadata` and read it back. To replace one image in a post still `READY_FOR_REVIEW` and not queued, use `replace_finished_image` with the current slide's SHA-256. A saved review post is a milestone, not a published result.
 
 If a save times out, check `list_finished_posts` and `get_finished_post` before retrying, so you do not create a duplicate.
 

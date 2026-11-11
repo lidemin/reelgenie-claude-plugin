@@ -2,6 +2,18 @@
 
 Versions of the Claude Code plugin in `plugins/reelgenie`.
 
+## 1.0.5 (11 November 2026)
+
+Brings the plugin skill up to date with the published ReelGenie skill, revision `2026-11-11.3`.
+
+- Instagram carousels and slide posts: 1 to 20 images or slides (was 1 to 10).
+- Finished HeyGen or Canva videos can be saved straight from the tool's download link with `create_finished_video_post`; only `files.heygen.ai` and `export-download.canva.com` links are accepted.
+- Connecting accounts: the console page is now **Accounts** (`https://reelgenie.app/app/accounts`). When no account is connected, `list_connected_accounts` returns `next_step` and `connect_url`; Claude gives the user that link. A post can be saved for review before any account is connected.
+- Every save returns `post_id`, `review_url` and `next_step` (plus `connect_url` when no account is connected); Claude shares the review link and asks the user to approve.
+- The skill mentions the short start-up instructions the server sends.
+- The Cursor plugin skill gets the same changes and revision; the Cursor plugin version is unchanged.
+- No change to permissions or approval: saving never publishes, and a person approves each delivery to TikTok, Instagram or YouTube.
+
 ## 1.0.4 (11 November 2026)
 
 - The skill now describes the posting allowance as it works today: Free teams created from November 2026 have 30 posts per team per month, resetting on the 1st at 00:00 UTC; older Free teams keep 10 posts per UTC day; Solo, Team and Agency plans have unlimited posts. It points Claude to the `plan` and `publishing_allowance` that `list_reelgenie_workspaces` returns instead of assuming a daily limit.
