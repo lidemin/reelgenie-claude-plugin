@@ -34,7 +34,7 @@ Before proposing creative work, summarise: audience situation → workspace goal
 
 ### References and Favourites
 
-When the user says "use this post as a reference", the reference is a team Favourite. Call `list_reference_templates`, reuse a matching one (match the source post across tracking parameters and URL variants), otherwise inspect the source and call `create_reference_template` with observed, brand-neutral analysis. Read it back with `get_reference_template` and tell the user which Favourite was saved or reused. Inspect the actual images (`get_reference_image` for the cover, an interior slide and the close) before designing. Transfer the form (hook mechanism, pacing, typography, composition) and choose a new subject from the workspace's goal. Never copy the source's logo, images, wording or claims. If the source cannot be seen, ask for screenshots.
+When the user says "use this post as a reference", the reference is a team Favourite. Call `list_reference_templates`, reuse a matching one (match the source post across tracking parameters and URL versions), otherwise inspect the source and call `create_reference_template` with observed, brand-neutral analysis. Read it back with `get_reference_template` and tell the user which Favourite was saved or reused. Inspect the actual images (`get_reference_image` for the cover, an interior slide and the close) before designing. Transfer the form (hook mechanism, pacing, typography, composition) and choose a new subject from the workspace's goal. Never copy the source's logo, images, wording or claims. If the source cannot be seen, ask for screenshots.
 
 ## Make the finished media
 

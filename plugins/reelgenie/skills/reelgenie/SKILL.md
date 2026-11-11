@@ -7,7 +7,7 @@ description: Connect Claude to ReelGenie, create finished social images or video
 
 ReelGenie is the last mile for social posts made in this conversation. Claude creates the finished media and copy. ReelGenie stores the exact files, shows a faithful preview, lets the user edit captions, schedules or publishes to connected accounts, and reports what each platform actually did. ReelGenie never generates images or renders video.
 
-Skill revision: `2026-11-09.1` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
+Skill revision: `2026-11-11.1` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
 
 ## Connect
 
@@ -34,7 +34,7 @@ Before proposing creative work, summarise: audience situation → workspace goal
 
 ### References and Favourites
 
-When the user says "use this post as a reference", the reference is a team Favourite. Call `list_reference_templates`, reuse a matching one (match the source post across tracking parameters and URL variants), otherwise inspect the source and call `create_reference_template` with observed, brand-neutral analysis. Read it back with `get_reference_template` and tell the user which Favourite was saved or reused. Inspect the actual images (`get_reference_image` for the cover, an interior slide and the close) before designing. Transfer the form (hook mechanism, pacing, typography, composition) and choose a new subject from the workspace's goal. Never copy the source's logo, images, wording or claims. If the source cannot be seen, ask for screenshots.
+When the user says "use this post as a reference", the reference is a team Favourite. Call `list_reference_templates`, reuse a matching one (match the source post across tracking parameters and URL versions), otherwise inspect the source and call `create_reference_template` with observed, brand-neutral analysis. Read it back with `get_reference_template` and tell the user which Favourite was saved or reused. Inspect the actual images (`get_reference_image` for the cover, an interior slide and the close) before designing. Transfer the form (hook mechanism, pacing, typography, composition) and choose a new subject from the workspace's goal. Never copy the source's logo, images, wording or claims. If the source cannot be seen, ask for screenshots.
 
 ## Make the finished media
 
@@ -97,4 +97,4 @@ Use `get_recent_post_performance` and `get_performance_review` for available pla
 
 ## Limits
 
-Free includes all features, unlimited connected accounts, up to 2 workspaces and 10 posts per team per UTC day; Pro is US$19/month or US$199/year with unlimited posts and up to 10 workspaces. A carousel or video sent to its destinations counts once; drafts and Favourites do not count. If the daily allowance is used, keep the post saved and offer another date. Never split workspaces or duplicate posts to get around a limit. Billing changes are a human step in the console.
+Free includes all features, 30 posts per team per month (UTC), 1 brand (workspace) and 3 connected accounts. Free teams that joined before these plans keep 10 posts per UTC day and 2 workspaces, and Pro subscribers keep Pro. Solo is US$19/month (2 brands, 10 accounts), Team US$49/month (5 brands, 30 accounts, 5 people) and Agency US$129/month (20 brands, 100 accounts); all paid plans have unlimited posts. `list_reelgenie_workspaces` returns the team's `plan` and `publishing_allowance`; use it rather than assuming. A carousel or video sent to its destinations counts once; drafts and Favourites do not count. If the allowance is used, keep the post saved and offer another date. Never split workspaces or duplicate posts to get around a limit. Billing changes are a human step in the console.
