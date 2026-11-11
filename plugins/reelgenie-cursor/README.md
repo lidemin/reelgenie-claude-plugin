@@ -10,7 +10,7 @@ Install **ReelGenie** from the Cursor Marketplace (Customize → Plugins), then 
 
 To try it before it is listed, copy the `plugins/reelgenie-cursor` folder to `~/.cursor/plugins/local/reelgenie` and run **Developer: Reload Window**.
 
-Connect your TikTok, Instagram or YouTube accounts at https://reelgenie.app/app under **Connections**. Free plan: 30 posts a month, 1 brand, 3 connected accounts.
+Connect your TikTok, Instagram or YouTube accounts on the **Accounts** page, https://reelgenie.app/app/accounts. Free plan: 30 posts a month, 1 brand, 3 connected accounts.
 
 ## What's included
 
@@ -27,6 +27,6 @@ Connect your TikTok, Instagram or YouTube accounts at https://reelgenie.app/app 
 
 The plugin runs no local code, hooks or scripts. It connects Cursor to one remote MCP server, `https://reelgenie.app/api/mcp/agent`, operated by ReelGenie. Sign-in uses OAuth through `https://auth.reelgenie.app`; no token is stored in plugin files.
 
-When you ask the agent to save a post, it sends the post title, caption and the image or video files you choose to ReelGenie. Files upload directly to ReelGenie's Google Cloud Storage bucket (`storage.googleapis.com`) through short-lived signed URLs that the MCP server issues. ReelGenie sends a post to TikTok, Instagram or YouTube only after you approve that delivery. Performance reads return metrics ReelGenie already synced for your own posts.
+When you ask the agent to save a post, it sends the post title, caption and the image or video files you choose to ReelGenie. Files upload to ReelGenie's Google Cloud Storage bucket, either directly through short-lived signed `storage.googleapis.com` URLs or, where that host is blocked, through ReelGenie's own upload address (`reelgenie.app/api/upload/...`). The MCP server issues both, and both are short-lived and private to that upload. ReelGenie sends a post to TikTok, Instagram or YouTube only after you approve that delivery. Performance reads return metrics ReelGenie already synced for your own posts.
 
 Privacy policy: https://reelgenie.app/privacy · Terms: https://reelgenie.app/terms · Support: https://reelgenie.app/support

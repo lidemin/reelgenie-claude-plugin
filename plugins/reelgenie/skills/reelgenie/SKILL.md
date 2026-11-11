@@ -7,13 +7,14 @@ description: Connect Claude to ReelGenie, create finished social images or video
 
 ReelGenie is the last mile for social posts made in this conversation. Claude creates the finished media and copy. ReelGenie stores the exact files, shows a faithful preview, lets the user edit captions, schedules or publishes to connected accounts, and reports what each platform actually did. ReelGenie never generates images or renders video.
 
-Skill revision: `2026-11-11.4` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
+Skill revision: `2026-11-11.7` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
 
 ## Connect
 
 1. Check whether ReelGenie MCP tools are available by calling `reelgenie_health`. If it succeeds, reuse the connection. Never create a second connection over a working one.
 2. This plugin already adds the `reelgenie` MCP server (`https://reelgenie.app/api/mcp/agent`). If its tools ask for sign-in, ask the user to run `/mcp`, choose `plugin:reelgenie:reelgenie` and sign in. The browser shows ReelGenie's consent page; the user signs in and approves.
 3. Never ask the user to paste a token or password into chat, put it in a URL or commit it. For other setups, point the user to `https://reelgenie.app/claude`.
+4. In the claude.ai or desktop app, where ReelGenie is added as a custom connector, uploads go from the code sandbox: the user also adds `reelgenie.app` under **Settings → Capabilities → Code execution and file creation → Additional allowed domains** (on Team or Enterprise, an owner does this in **Organization settings → Capabilities**), then starts a new conversation. Connecting ReelGenie does not allow that domain: the connector's tool calls go from Anthropic's servers, but uploads go from the sandbox.
 
 Sign-in alone does not prove anything works. Use an authenticated `reelgenie_health` result as the connection proof. The server also sends short start-up instructions with these first steps: check `list_connected_accounts`, give the connect link if no account is connected, save the post for review, share its review link, and ask the user to approve.
 
@@ -44,7 +45,7 @@ Claude does not generate photographs or video itself. Choose the route that fits
 
 - **Type-led carousels and slides (best fit):** design each slide as HTML and CSS at the exact output size, using the workspace's visual guidance and real brand assets the user supplied. Render with a headless browser, for example Playwright: set the viewport to the slide size with `deviceScaleFactor: 1` and save with `page.screenshot({ type: 'jpeg', quality: 92 })`. Use 1080×1350 for a portrait carousel or 1080×1920 for full-screen TikTok. Wait for web fonts to load before capturing.
 - **Photographs or illustrations:** use images the user supplied or has rights to, or an image-generation tool the user has connected. Never present a stock or generated picture as a real customer, product screen or result.
-- **Video:** use a finished MP4 the user supplied or produced with a video tool. If a HeyGen or Canva tool in this conversation returned a download link for the finished video, save it from that link (below). If none is available, say so and offer an image post instead; do not switch formats silently.
+- **Video:** use a finished MP4 the user supplied or produced with a video tool. If a HeyGen, Canva or Higgsfield tool in this conversation returned a download link for the finished video, save it from that link (below). If none is available, say so and offer an image post instead; do not switch formats silently.
 
 Design the cover and one interior slide first and show them before rendering the rest when the user chose a specific look. Inspect every rendered file at phone size: spelling, text size, contrast, line breaks, cropping and order. Fix and re-render failures.
 
@@ -77,7 +78,23 @@ Upload images directly from disk; never pass image bytes through the conversatio
 
 For a video: `begin_finished_video_post` → `get_finished_video_upload_url` → PUT the MP4 with `Content-Type: video/mp4` and `x-goog-if-generation-match: 0` → `finalize_finished_video_post`. Maximum 500 MB.
 
-For a video a video tool made and returned as a link, with no file on disk (for example in claude.ai): call `create_finished_video_post` with `title`, optional `description` and `video_url`, the exact download link the tool returned. ReelGenie downloads and checks it and saves the post in one call. Only links on `files.heygen.ai` (HeyGen `video_url`) and `export-download.canva.com` (Canva export download) are accepted; the link must be `https://`, MP4 or MOV, at most 500 MB, and download within 5 minutes. These links expire (Canva after 24 hours, HeyGen when its `Expires` time passes): if the save says the link expired, get a fresh one from the tool and try once more. Pass the link only to this tool; never show it in chat. For any other host, download the file and use the upload flow above, or say that this host is not supported yet.
+**If `storage.googleapis.com` is blocked** where you run (for example the claude.ai sandbox refuses the PUT at its proxy), upload through reelgenie.app instead. The upload tools also return a `reelgenie_upload_url`, which is just as secret.
+- Image: PUT the whole file to that slide's `reelgenie_upload_url`, with its `Content-Type`.
+- Video: PUT the MP4 in order, in parts of `reelgenie_part_bytes` (8 MiB; only the last part may be smaller), each with `Content-Range: bytes <first>-<last>/<total>`:
+  ```bash
+  size=$(wc -c < clip.mp4); part=8388608; i=0
+  while [ $((i * part)) -lt "$size" ]; do
+    start=$((i * part)); end=$(( start + part < size ? start + part : size ))
+    dd if=clip.mp4 bs="$part" skip="$i" count=1 2>/dev/null | curl --fail --silent --show-error -X PUT \
+      -H "Content-Type: video/mp4" -H "Content-Range: bytes $start-$((end - 1))/$size" --data-binary @- "$RELAY_URL"
+    i=$((i + 1))
+  done
+  ```
+  Each reply is `{"complete": false, "received_bytes": N}` until the last, which is `{"complete": true}`. If a part fails, PUT an empty body with `Content-Range: bytes */<total>` to read `received_bytes`, then continue from there. Then call `finalize_finished_video_post` as usual.
+
+**If `reelgenie.app` is blocked too** (the sandbox proxy refuses the PUT, for example with 403 or a blocked-by-allowlist error), stop and ask the user to add `reelgenie.app` under Settings → Capabilities → Code execution and file creation → Additional allowed domains (on Team or Enterprise, an owner does it in Organization settings → Capabilities), then continue in a new conversation; the setting applies to new conversations. The post already saved stays in review. Do not route the file through a browser or another host. Only one or two small images may still go as base64 through `create_finished_image_post`.
+
+For a video a video tool made and returned as a link, with no file on disk (for example in claude.ai): call `create_finished_video_post` with `title`, optional `description` and `video_url`, the exact download link the tool returned. ReelGenie downloads and checks it and saves the post in one call. Only links on `files.heygen.ai` (HeyGen `video_url`), `export-download.canva.com` (Canva export download) and `d8j0ntlcm91z4.cloudfront.net` (Higgsfield finished video) are accepted; the link must be `https://`, MP4 or MOV, at most 500 MB, and download within 5 minutes. These links expire (Canva after 24 hours, HeyGen when its `Expires` time passes): if the save says the link expired, get a fresh one from the tool and try once more. Pass the link only to this tool; never show it in chat. For any other host, download the file and use the upload flow above, or say that this host is not supported yet.
 
 `create_finished_image_post` with base64 `images` remains available for one or two small images when no shell is available. Prefer the upload flow whenever files are on disk.
 
