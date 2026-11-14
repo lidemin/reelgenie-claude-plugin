@@ -9,7 +9,7 @@ claude plugin marketplace add lidemin/reelgenie-claude-plugin
 claude plugin install reelgenie@reelgenie
 ```
 
-Then run `/mcp`, choose **reelgenie** and sign in to ReelGenie. The consent screen lists every permission before you connect.
+Then restart Claude Code, type `/mcp`, choose **plugin:reelgenie:reelgenie** and sign in to ReelGenie. The consent screen lists every permission before you connect. No account yet? [Sign up free](https://reelgenie.app/app/signup).
 
 ## What's included
 
