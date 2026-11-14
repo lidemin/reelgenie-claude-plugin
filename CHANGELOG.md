@@ -2,6 +2,19 @@
 
 Versions of the Claude Code plugin in `plugins/reelgenie`.
 
+## 1.0.6 (14 November 2026)
+
+Brings the plugin skill up to date with the published ReelGenie skill, revision `2026-11-14.1`.
+
+- Right after the health check, Claude calls `list_connected_accounts`. If no account is connected, it asks the user in one line to connect one now with the `connect_url`, can offer to make a first post meanwhile, and checks again when they say it's done. If one workspace has an account and another is empty, it uses the connected one unless the user wants the other.
+- For a new user, `list_reelgenie_workspaces` and `list_connected_accounts` return `suggested_first_task`: one thing to offer first. A post can be saved for review while the user connects, but cannot be sent until an account is connected.
+- Approving a send: Claude asks one yes/no question naming the post, the account, the delivery mode and the time, and asks again if anything changes. `approve_post` now gets `selection_reason` (the question and the answer, kept in the post's history). The skill describes what `approve_post` and `request_publish_approval` return (`next_step`, `review_url`, `delivery_updates`, `check_delivery_hint`, and `publish_retrying` when a send-now has to be retried by ReelGenie).
+- TikTok videos need a frame rate between 23 and 60 fps. `finalize_finished_video_post` warns outside that range and TikTok approval is refused; the skill shows an `ffprobe` check.
+- When an account's last 3 posts failed with the same error, ReelGenie holds its scheduled posts (`account_held`). The skill explains how the hold shows up and clears, and says never to work around it.
+- The Cursor plugin skill gets the same changes and revision. The Cursor plugin version is unchanged.
+- The published skill's new "ask before running `claude mcp add`" step does not apply here: this plugin adds the server itself.
+- No change to permissions or approval: saving never publishes, and a person approves each delivery to TikTok, Instagram or YouTube.
+
 ## 1.0.5 (11 November 2026)
 
 Brings the plugin skill up to date with the published ReelGenie skill, revision `2026-11-11.7`.
