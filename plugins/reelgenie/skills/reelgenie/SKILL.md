@@ -27,7 +27,7 @@ Social account connection (TikTok, Instagram, YouTube) happens in the console on
 When the workspace has no posts yet (`list_finished_posts` returns none, or `setup_guide` from `list_connected_accounts` says so), the aim is one saved post within a few minutes, so the person sees ReelGenie work before any setup questions. For that first post only, this replaces the two sections below:
 
 1. Ask one question: what the post is about. Skip it if they already said.
-2. Do not ask for the profile's missing fields and do not offer several directions to choose from. Read the workspace profile and use what it already holds.
+2. Do not ask for the profile's missing fields and do not offer several directions to choose from. Still use the workspace the person named, or the default one, and pass its exact `account_group_id` to every call. Read that workspace's profile and use what it already holds.
 3. Call `create_slide_post` with 3 to 5 slides: a `hook`, two or three `points` slides and a `closing`, plus a title, a caption and a few hashtags. If the person brought finished files, save those instead.
 4. Read it back with `get_finished_post` and give the person the `review_url` that the save returned.
 5. Close the loop in two sentences, then offer one next step: "Your first post is saved in ReelGenie. Nothing is posted until you approve it." Say it is a quick sample they can change or replace. With no account connected, the next step is the `connect_url`; otherwise it is choosing when the post goes out.
