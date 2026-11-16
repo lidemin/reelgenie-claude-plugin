@@ -13,6 +13,17 @@ Then run `/mcp`, choose **reelgenie** and sign in to ReelGenie. The consent scre
 
 After that, ask Claude: "Make my first post with ReelGenie and save it for me to review." Saving works before you connect TikTok, Instagram or YouTube; an account is needed only to send the post. Claude asks permission the first time it uses ReelGenie. Choose **Always allow** and it won't ask each time.
 
+## Update
+
+A plugin installed from GitHub does not update itself. To get the latest version:
+
+```bash
+claude plugin marketplace update reelgenie
+claude plugin update reelgenie@reelgenie
+```
+
+Then restart Claude Code. `claude plugin list` shows the version you have; the newest is at the top of the [changelog](../../CHANGELOG.md).
+
 ## What's included
 
 - **MCP server** `https://reelgenie.app/api/mcp/agent`: sign-in, uploads, review links, scheduling, publishing and post performance.

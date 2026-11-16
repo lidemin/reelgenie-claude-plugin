@@ -8,3 +8,5 @@ Help the person check a saved ReelGenie post and decide where and when it goes o
 Post, if given: $ARGUMENTS
 
 With no post named, call `list_finished_posts` and offer the newest one that is waiting for review. Show its title, caption and review link, then follow the "Publish or schedule only with explicit approval" section of the `reelgenie` skill. Nothing is sent until the person approves the exact accounts and time.
+
+If no ReelGenie tools are available, the plugin is not signed in yet: follow "If ReelGenie is not answering" in the `get-started` skill (run `/mcp`, choose `plugin:reelgenie:reelgenie`, sign in) before anything else.

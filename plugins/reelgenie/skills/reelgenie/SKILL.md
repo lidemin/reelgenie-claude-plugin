@@ -7,7 +7,7 @@ description: Connect Claude to ReelGenie, create finished social images or video
 
 ReelGenie is the last mile for social posts made in this conversation. Claude creates the finished media and copy. ReelGenie stores the exact files, shows a faithful preview, lets the user edit captions, schedules or publishes to connected accounts, and reports what each platform actually did. ReelGenie never generates images or renders video.
 
-Skill revision: `2026-11-16.2` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
+Skill revision: `2026-11-16.3` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web. A plugin installed from GitHub does not update itself: if the person asks how to update, or something described on reelgenie.app is missing here, give them `claude plugin marketplace update reelgenie` and then `claude plugin update reelgenie@reelgenie`, and ask them to restart Claude Code.
 
 ## Connect
 
@@ -15,6 +15,8 @@ Skill revision: `2026-11-16.2` (Claude Code plugin). Plugin updates arrive throu
 2. This plugin already adds the `reelgenie` MCP server (`https://reelgenie.app/api/mcp/agent`). If its tools ask for sign-in, ask the user to run `/mcp`, choose `plugin:reelgenie:reelgenie` and sign in. The browser shows ReelGenie's consent page; the user signs in and approves.
 3. Never ask the user to paste a token or password into chat, put it in a URL or commit it. For other setups, point the user to `https://reelgenie.app/claude`.
 4. In the claude.ai or desktop app, where ReelGenie is added as a custom connector, uploads go from the code sandbox: the user opens **Settings → Capabilities**, turns on **Create and edit files** and **Use the internet while making files**, then next to **Allowed websites** chooses **Manage** and adds `reelgenie.app` under **Add a website** (exactly `reelgenie.app`; `*.reelgenie.app` may not cover it). On Team or Enterprise, an owner allows the domain in **Organization settings → Capabilities**. Then the user starts a new conversation. Connecting ReelGenie does not allow that domain: the connector's tool calls go from Anthropic's servers, but uploads go from the sandbox.
+
+If no ReelGenie tools are available at all, the plugin is installed but not signed in. Say exactly that and give the `/mcp` step from item 2; do not send the person to claude.ai connector settings, which belong to a different connection. `../get-started/SKILL.md` lists the other cases under "If ReelGenie is not answering".
 
 Sign-in alone does not prove anything works. Use an authenticated `reelgenie_health` result as the connection proof. The server also sends short start-up instructions with these first steps: check `list_connected_accounts`, save the post for review (this works before any account is connected), share its review link, give the connect link if no account is connected, and ask the user to approve.
 
@@ -28,7 +30,7 @@ When the workspace has no posts yet (`list_finished_posts` returns none, or `set
 
 1. Ask one question: what the post is about. Skip it if they already said.
 2. Do not ask for the profile's missing fields and do not offer several directions to choose from. Still use the workspace the person named, or the default one, and pass its exact `account_group_id` to every call. Read that workspace's profile and use what it already holds.
-3. Call `create_slide_post` with 3 to 5 slides: a `hook`, two or three `points` slides and a `closing`, plus a title, a caption and a few hashtags. If the person brought finished files, save those instead.
+3. Call `create_slide_post` with 3 to 5 slides: a `hook`, two or three `points` slides and a `closing`, plus a title, a caption and a few hashtags. Leave `style` out so ReelGenie uses its default colours, unless the workspace profile gives brand colours; colours you pick yourself can be refused for being too faint to read. If the person brought finished files, save those instead.
 4. Read it back with `get_finished_post` and give the person the `review_url` that the save returned.
 5. Close the loop in two sentences, then offer one next step: "Your first post is saved in ReelGenie. Nothing is posted until you approve it." Say it is a quick sample they can change or replace. With no account connected, the next step is the `connect_url`; otherwise it is choosing when the post goes out.
 
