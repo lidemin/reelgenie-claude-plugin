@@ -2,6 +2,19 @@
 
 Versions of the Claude Code plugin in `plugins/reelgenie`.
 
+## 1.0.7 (16 November 2026)
+
+Gets a new person to a first saved post faster.
+
+- A first post, the quick way: for the first post in a workspace, Claude asks one question (what it is about), makes 3 to 5 slides with `create_slide_post`, saves them for review and shares the link. The questions about audience and goals, and the choice between directions, wait for the second post. A person who asks for something specific gets that instead.
+- After the first save, Claude says what happened in two sentences and offers one next step: connect an account, or choose when the post goes out.
+- Three commands: `/reelgenie:first-post`, `/reelgenie:review-post` and `/reelgenie:results`.
+- `get-started` has short steps for when ReelGenie is not answering: not connected, sign-in expired, tools not showing, permission prompts, a tool error.
+- Both skills follow `setup_guide` from `list_connected_accounts` when the server returns it, so first-step wording can change without a plugin release.
+- Skill revision `2026-11-16.2`.
+- The Cursor plugin is unchanged.
+- No change to tools, permissions or approval: saving never publishes, and a person approves each delivery to TikTok, Instagram or YouTube. The plugin still runs no local code.
+
 ## 1.0.6 (16 November 2026)
 
 Makes the first few minutes easier for someone new.
