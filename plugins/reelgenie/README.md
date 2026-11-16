@@ -17,6 +17,7 @@ After that, ask Claude: "Make my first post with ReelGenie and save it for me to
 
 - **MCP server** `https://reelgenie.app/api/mcp/agent`: sign-in, uploads, review links, scheduling, publishing and post performance.
 - **Skill** `get-started`: a short first step. Claude checks which accounts are connected and whether any posts are saved, says where you are, and offers one next step.
+- **Commands** `/reelgenie:first-post`, `/reelgenie:review-post` and `/reelgenie:results`: shortcuts for a first post, checking a saved post, and seeing how recent posts did.
 - **Skill** `reelgenie`: how Claude makes finished slides, uploads them for private review, and asks for your approval before any delivery.
 
 ## What the plugin sends and where

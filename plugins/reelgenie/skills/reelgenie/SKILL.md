@@ -7,7 +7,7 @@ description: Connect Claude to ReelGenie, create finished social images or video
 
 ReelGenie is the last mile for social posts made in this conversation. Claude creates the finished media and copy. ReelGenie stores the exact files, shows a faithful preview, lets the user edit captions, schedules or publishes to connected accounts, and reports what each platform actually did. ReelGenie never generates images or renders video.
 
-Skill revision: `2026-11-16.1` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
+Skill revision: `2026-11-16.2` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
 
 ## Connect
 
@@ -21,6 +21,18 @@ Sign-in alone does not prove anything works. Use an authenticated `reelgenie_hea
 For someone new to ReelGenie, or who asks what to do first, start with ../get-started/SKILL.md: it checks their accounts and saved posts and offers one next step. Claude asks permission the first time it uses a ReelGenie tool; tell the user once that choosing **Always allow** stops it asking each time.
 
 Social account connection (TikTok, Instagram, YouTube) happens in the console on the **Accounts** page, `https://reelgenie.app/app/accounts`. When a workspace has no active account, `list_connected_accounts` returns `next_step` and `connect_url`: give the user that exact link, then check `list_connected_accounts` again after they connect. A post can be saved for review before any account is connected; an account is needed only to send it. So with a new person, offer to make and save a first post now rather than waiting for an account, then ask them to connect one so it can be sent. Use `get_console_handoff` for other protected account steps.
+
+## A first post, the quick way
+
+When the workspace has no posts yet (`list_finished_posts` returns none, or `setup_guide` from `list_connected_accounts` says so), the aim is one saved post within a few minutes, so the person sees ReelGenie work before any setup questions. For that first post only, this replaces the two sections below:
+
+1. Ask one question: what the post is about. Skip it if they already said.
+2. Do not ask for the profile's missing fields and do not offer several directions to choose from. Still use the workspace the person named, or the default one, and pass its exact `account_group_id` to every call. Read that workspace's profile and use what it already holds.
+3. Call `create_slide_post` with 3 to 5 slides: a `hook`, two or three `points` slides and a `closing`, plus a title, a caption and a few hashtags. If the person brought finished files, save those instead.
+4. Read it back with `get_finished_post` and give the person the `review_url` that the save returned.
+5. Close the loop in two sentences, then offer one next step: "Your first post is saved in ReelGenie. Nothing is posted until you approve it." Say it is a quick sample they can change or replace. With no account connected, the next step is the `connect_url`; otherwise it is choosing when the post goes out.
+
+If the person asks for something specific (their own design, a reference post, a video, a particular look), do that instead. Their brief always comes first. The fuller questions about audience and goals belong to the second post, not the first. YouTube takes video only. When YouTube is the only connected account, say so before making slides, and do not offer to send slides there: offer a video the person supplies or makes with a video tool, or slides that can go out once TikTok or Instagram is connected. When `list_connected_accounts` returns `setup_guide`, follow it where it differs from these steps; the server's copy is the newer one.
 
 ## Load the workspace before creating anything
 
