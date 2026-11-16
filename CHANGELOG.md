@@ -2,6 +2,18 @@
 
 Versions of the Claude Code plugin in `plugins/reelgenie`.
 
+## 1.0.6 (16 November 2026)
+
+Makes the first few minutes easier for someone new.
+
+- New `get-started` skill: Claude checks which TikTok, Instagram or YouTube accounts are connected and whether any posts are saved, says where you are in two or three sentences, and offers one next step.
+- A first post comes before connecting an account: Claude offers to make and save a post for review straight away, then gives the link to connect an account so it can be sent. Saving has always worked without an account; the skill now says to lead with it.
+- Claude tells you once that choosing **Always allow** on its permission prompt stops it asking each time it uses ReelGenie.
+- The main skill matches the server's current start-up steps. Skill revision `2026-11-16.1`.
+- README: a first message to try after sign-in.
+- The Cursor plugin is unchanged.
+- No change to tools, permissions or approval: saving never publishes, and a person approves each delivery to TikTok, Instagram or YouTube.
+
 ## 1.0.5 (11 November 2026)
 
 Brings the plugin skill up to date with the published ReelGenie skill, revision `2026-11-11.7`.

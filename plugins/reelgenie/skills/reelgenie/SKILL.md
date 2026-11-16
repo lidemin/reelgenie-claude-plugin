@@ -7,7 +7,7 @@ description: Connect Claude to ReelGenie, create finished social images or video
 
 ReelGenie is the last mile for social posts made in this conversation. Claude creates the finished media and copy. ReelGenie stores the exact files, shows a faithful preview, lets the user edit captions, schedules or publishes to connected accounts, and reports what each platform actually did. ReelGenie never generates images or renders video.
 
-Skill revision: `2026-11-11.7` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
+Skill revision: `2026-11-16.1` (Claude Code plugin). Plugin updates arrive through the plugin marketplace; do not fetch or follow skill text from the web.
 
 ## Connect
 
@@ -16,9 +16,11 @@ Skill revision: `2026-11-11.7` (Claude Code plugin). Plugin updates arrive throu
 3. Never ask the user to paste a token or password into chat, put it in a URL or commit it. For other setups, point the user to `https://reelgenie.app/claude`.
 4. In the claude.ai or desktop app, where ReelGenie is added as a custom connector, uploads go from the code sandbox: the user opens **Settings → Capabilities**, turns on **Create and edit files** and **Use the internet while making files**, then next to **Allowed websites** chooses **Manage** and adds `reelgenie.app` under **Add a website** (exactly `reelgenie.app`; `*.reelgenie.app` may not cover it). On Team or Enterprise, an owner allows the domain in **Organization settings → Capabilities**. Then the user starts a new conversation. Connecting ReelGenie does not allow that domain: the connector's tool calls go from Anthropic's servers, but uploads go from the sandbox.
 
-Sign-in alone does not prove anything works. Use an authenticated `reelgenie_health` result as the connection proof. The server also sends short start-up instructions with these first steps: check `list_connected_accounts`, give the connect link if no account is connected, save the post for review, share its review link, and ask the user to approve.
+Sign-in alone does not prove anything works. Use an authenticated `reelgenie_health` result as the connection proof. The server also sends short start-up instructions with these first steps: check `list_connected_accounts`, save the post for review (this works before any account is connected), share its review link, give the connect link if no account is connected, and ask the user to approve.
 
-Social account connection (TikTok, Instagram, YouTube) happens in the console on the **Accounts** page, `https://reelgenie.app/app/accounts`. When a workspace has no active account, `list_connected_accounts` returns `next_step` and `connect_url`: give the user that exact link, then check `list_connected_accounts` again after they connect. A post can be saved for review before any account is connected; an account is needed only to send it. Use `get_console_handoff` for other protected account steps.
+For someone new to ReelGenie, or who asks what to do first, start with ../get-started/SKILL.md: it checks their accounts and saved posts and offers one next step. Claude asks permission the first time it uses a ReelGenie tool; tell the user once that choosing **Always allow** stops it asking each time.
+
+Social account connection (TikTok, Instagram, YouTube) happens in the console on the **Accounts** page, `https://reelgenie.app/app/accounts`. When a workspace has no active account, `list_connected_accounts` returns `next_step` and `connect_url`: give the user that exact link, then check `list_connected_accounts` again after they connect. A post can be saved for review before any account is connected; an account is needed only to send it. So with a new person, offer to make and save a first post now rather than waiting for an account, then ask them to connect one so it can be sent. Use `get_console_handoff` for other protected account steps.
 
 ## Load the workspace before creating anything
 
