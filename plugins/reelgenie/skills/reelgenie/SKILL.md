@@ -29,7 +29,7 @@ When the workspace has no posts yet (`list_finished_posts` returns none, or `set
 1. Ask one question: what the post is about. Skip it if they already said.
 2. Do not ask for the profile's missing fields and do not offer several directions to choose from. Read the workspace profile and use what it already holds.
 3. Call `create_slide_post` with 3 to 5 slides: a `hook`, two or three `points` slides and a `closing`, plus a title, a caption and a few hashtags. If the person brought finished files, save those instead.
-4. Read it back with `get_finished_post` and give the person its `review_url`.
+4. Read it back with `get_finished_post` and give the person the `review_url` that the save returned.
 5. Close the loop in two sentences, then offer one next step: "Your first post is saved in ReelGenie. Nothing is posted until you approve it." Say it is a quick sample they can change or replace. With no account connected, the next step is the `connect_url`; otherwise it is choosing when the post goes out.
 
 If the person asks for something specific (their own design, a reference post, a video, a particular look), do that instead. Their brief always comes first. The fuller questions about audience and goals belong to the second post, not the first. YouTube takes video only. When YouTube is the only connected account, say so before making slides, and do not offer to send slides there: offer a video the person supplies or makes with a video tool, or slides that can go out once TikTok or Instagram is connected. When `list_connected_accounts` returns `setup_guide`, follow it where it differs from these steps; the server's copy is the newer one.
