@@ -2,6 +2,15 @@
 
 Versions of the Claude Code plugin in `plugins/reelgenie`.
 
+## 1.0.8 (16 November 2026)
+
+Fixes from a hand test of 1.0.7 with a fresh chat.
+
+- Signed out: the main skill and the three commands now say the plugin is not signed in and give the `/mcp` step. Before, a first message such as "make my first post" could point to claude.ai connector settings instead.
+- Quick first post: Claude leaves `style` out so the default colours are used, unless the workspace has brand colours. In the test its own colour choice was refused for low contrast and it had to retry.
+- Updating: the README and the skill give the two commands to update a plugin installed from GitHub, which does not update itself.
+- Skill revision `2026-11-16.3`. The Cursor plugin is unchanged. No change to tools, permissions or approval.
+
 ## 1.0.7 (16 November 2026)
 
 Gets a new person to a first saved post faster.
