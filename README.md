@@ -1,5 +1,17 @@
 # ReelGenie plugins for Claude Code and Cursor
 
+ReelGenie (reelgenie.app) holds your AI agent's finished posts until you approve, then publishes to TikTok, Instagram and YouTube.
+
+| | |
+|---|---|
+| What it is | Hosted MCP server: `https://reelgenie.app/api/mcp/agent` (OAuth sign-in, no API key) |
+| Platforms | TikTok, Instagram, YouTube |
+| Approval | A person approves every post, on every plan. Saving a post never sends it. |
+| After sending | A result for each account, then views and likes per account |
+| Does not do | Generate images or video; other platforms; self-hosting |
+| Price | Free: 30 posts a month, 1 brand, 3 connected accounts. Paid from US$19/month |
+| Also listed | Claude connector directory; MCP Registry `app.reelgenie/reelgenie` |
+
 This repository holds two plugins for the same ReelGenie MCP server:
 
 - `plugins/reelgenie`: the Claude Code plugin (listed by `.claude-plugin/marketplace.json`).
