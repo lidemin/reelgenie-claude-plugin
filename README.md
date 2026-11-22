@@ -30,6 +30,8 @@ claude plugin install reelgenie@reelgenie
 
 Then run `/mcp`, choose **reelgenie** and sign in to ReelGenie. The consent screen lists every permission before you connect.
 
+After that, ask Claude: "Use ReelGenie: make my first post and save it for me to review, then show my connected accounts. If you can't see ReelGenie tools, tell me to run /mcp, choose ReelGenie and sign in, then I'll send this again."
+
 ### What's included
 
 - **MCP server** `https://reelgenie.app/api/mcp/agent`: sign-in, uploads, review links, scheduling, publishing and post performance.

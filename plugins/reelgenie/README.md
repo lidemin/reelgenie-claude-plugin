@@ -11,7 +11,7 @@ claude plugin install reelgenie@reelgenie
 
 Then run `/mcp`, choose **reelgenie** and sign in to ReelGenie. The consent screen lists every permission before you connect.
 
-After that, ask Claude: "Make my first post with ReelGenie and save it for me to review." Saving works before you connect TikTok, Instagram or YouTube; an account is needed only to send the post. Claude asks permission the first time it uses ReelGenie. Choose **Always allow** and it won't ask each time.
+After that, ask Claude: "Use ReelGenie: make my first post and save it for me to review, then show my connected accounts. If you can't see ReelGenie tools, tell me to run /mcp, choose ReelGenie and sign in, then I'll send this again." Saving works before you connect TikTok, Instagram or YouTube; an account is needed only to send the post. Claude asks permission the first time it uses ReelGenie. Choose **Always allow** and it won't ask each time.
 
 ## Update
 
