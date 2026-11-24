@@ -2,6 +2,11 @@
 
 Versions of the Claude Code plugin in `plugins/reelgenie`.
 
+## Unreleased
+
+- Root README: says a free ReelGenie account is needed, how saving, approval and publishing work, a first message to try, and lists the `get-started` skill and the three commands.
+- Skills added without the plugin (for example with `npx skills add`): the `reelgenie` and `get-started` skills no longer say the server is always there. They now give the step to add `https://reelgenie.app/api/mcp/agent` in the agent's MCP settings and sign in. No change to tools, permissions or approval.
+
 ## 1.0.8 (16 November 2026)
 
 Fixes from a hand test of 1.0.7 with a fresh chat.

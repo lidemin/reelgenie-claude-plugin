@@ -12,6 +12,10 @@ ReelGenie (reelgenie.app) holds your AI agent's finished posts until you approve
 | Price | Free: 30 posts a month, 1 brand, 3 connected accounts. Paid from US$19/month |
 | Also listed | Claude connector directory; MCP Registry `app.reelgenie/reelgenie` |
 
+You need a free ReelGenie account. Sign up at [reelgenie.app](https://reelgenie.app).
+
+How it works: your agent saves finished posts to ReelGenie for you to review. You approve each delivery. Only then does ReelGenie publish to TikTok, Instagram or YouTube, and it shows the result for each account.
+
 This repository holds two plugins for the same ReelGenie MCP server:
 
 - `plugins/reelgenie`: the Claude Code plugin (listed by `.claude-plugin/marketplace.json`).
@@ -33,6 +37,18 @@ Then run `/mcp`, choose **reelgenie** and sign in to ReelGenie. The consent scre
 ### What's included
 
 - **MCP server** `https://reelgenie.app/api/mcp/agent`: sign-in, uploads, review links, scheduling, publishing and post performance.
+- **Skill** `get-started`: a short first step. Claude checks which accounts are connected and whether any posts are saved, says where you are, and offers one next step.
+- **Commands** `/reelgenie:first-post`, `/reelgenie:review-post` and `/reelgenie:results`: shortcuts for a first post, checking a saved post, and seeing how recent posts did.
 - **Skill** `reelgenie`: how Claude makes finished slides, uploads them for private review, and asks for your approval before any delivery.
+
+### First message to try
+
+After you sign in, ask Claude: "Make my first post with ReelGenie and save it for me to review."
+
+Saving works before you connect TikTok, Instagram or YouTube; an account is needed only to send the post.
+
+### Skills only
+
+If you add only the skills (for example with `npx skills add`), the MCP server is not added. Add `https://reelgenie.app/api/mcp/agent` as a remote MCP server in your agent's MCP settings and sign in to ReelGenie. The plugin install above adds it for you.
 
 Setup guide: https://reelgenie.app/claude

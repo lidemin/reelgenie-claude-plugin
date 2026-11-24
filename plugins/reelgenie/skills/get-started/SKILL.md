@@ -2,7 +2,7 @@
 name: get-started
 description: Start here when someone is new to ReelGenie. Use when they just connected or installed ReelGenie, say "get started", "set up ReelGenie", "I'm new" or "what now", ask what ReelGenie can do, or want to make their first post. Checks which TikTok, Instagram or YouTube accounts are connected and whether any posts are saved, says where they are in two or three plain sentences, and offers one next step.
 ---
-Use this as the first stop for a new person. Keep it short: check, say where they are, offer one next step, then hand off. Use this plugin's bundled ReelGenie connection. If ReelGenie does not answer, see "If ReelGenie is not answering" at the end, then come back here.
+Use this as the first stop for a new person. Keep it short: check, say where they are, offer one next step, then hand off. Use the ReelGenie connection that the plugin adds; if only the skills were added, the server must be added first (see below). If ReelGenie does not answer, see "If ReelGenie is not answering" at the end, then come back here.
 
 ## 1. Check
 
@@ -51,7 +51,7 @@ When they say yes, do the work as ../reelgenie/SKILL.md describes rather than re
 
 Work out which of these it is, give the one step that fits, then check with `reelgenie_health`:
 
-- **No ReelGenie tools at all:** the plugin is installed but not connected. Ask the person to run `/mcp`, choose `plugin:reelgenie:reelgenie` and sign in. The browser shows ReelGenie's consent page; they sign in and approve.
+- **No ReelGenie tools at all:** if the plugin is installed, it is not connected yet. Ask the person to run `/mcp`, choose `plugin:reelgenie:reelgenie` and sign in. The browser shows ReelGenie's consent page; they sign in and approve. If they added only the skills (for example with `npx skills add`), the MCP server is not added: ask them to add `https://reelgenie.app/api/mcp/agent` as a remote MCP server in their agent's MCP settings and sign in, or to follow `https://reelgenie.app/claude`.
 - **Tools ask for sign-in, or calls fail as unauthorized:** the sign-in has expired. Run `/mcp` and sign in again; nothing saved is lost.
 - **Just connected, but the tools do not appear:** start a new Claude Code session so it reads the tool list again.
 - **Claude asks permission before each ReelGenie call:** choosing Always allow stops it asking each time.
